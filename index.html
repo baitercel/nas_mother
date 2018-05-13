@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
+          name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="telephone=no" name="format-detection">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="./img/mama.png" rel="shortcut icon"/>
+    <!--<link href="./img/anlian.png" rel="shortcut icon"/>-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <title>妈妈的爱-母亲节专供版</title>
+
+    <style>
+
+    </style>
+    <script src="jquery.min.js"></script>
+    <!--<link rel="stylesheet" href="lib/bootstrap-4.0.0-dist/css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" href="http://www.bootcss.com/p/buttons/css/buttons.css">-->
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <script src="./materialize/js/materialize.min.js"></script>
+
+
+    <style>
+        .dan{
+            width:350px;
+            float: left;
+            margin: 2px;
+        }
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<nav style="height: 115px;padding-top: 5px;" class="light-green lighten-3">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo center"><img src="./img/logo.png" alt="母亲节"></a>
+
+    </div>
+</nav>
+
+
+<div class="noExtension hide" id="noExtension"  style="width: 100%;margin: auto;text-align: center;">
+    运行环境需要 <a target="_blank" href="https://github.com/ChengOrangeJu/WebExtensionWallet" style="color: red;">星云钱包chrome拓展</a>才能顺利运行
+</div>
+
+
+
+
+
+<!--预加载-->
+<div id="pre-load" class="preloader-wrapper active" style="z-index:100;position: absolute;top:40%; left:50%;margin-top: -32px;margin-left: -32px;">
+    <div class="spinner-layer spinner-red-only">
+        <div class="circle-clipper left">
+            <div class="circle"></div>
+        </div><div class="gap-patch">
+        <div class="circle"></div>
+    </div><div class="circle-clipper right">
+        <div class="circle"></div>
+    </div>
+    </div>
+</div>
+<!--预加载-->
+
+
+
+
+<div id="container" style="height:100%;text-align: left;margin: auto;width:1100px;min-height: 600px; ">
+</div>
+<div style="clear: both"></div>
+
+<div style="width:500px;text-align: left;margin: auto;">
+    <form class="col s12" action="" onsubmit="return vc()">
+
+        <div class="input-field col s12">
+            <input id="name" type="text" class="validate"  length="10" maxlength="10" required  >
+            <label for="name">署名</label>
+        </div>
+
+
+        <div class="input-field col s12">
+            <input id="letter" type="text" class="validate"  length="100" maxlength="100" required  >
+            <label for="letter">内容</label>
+        </div>
+
+        <button class="btn waves-effect light-green lighten-3 brown-text" type="submit" name="action">提交
+
+        </button>
+
+
+    </form>
+
+
+
+
+</div>
+
+
+
+<footer class="page-footer light-green lighten-3">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="brown-text">妈妈的爱</h5>
+                <p class="brown-text">妈妈的爱-母亲节专供版基于星云链主网运行，将您的感情永久保存在区块链上</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+
+                <ul>
+                    <li><a target="_blank" class="brown-text " href="https://nebulas.io/">星云官网</a></li>
+                    <li><a target="_blank" class="brown-text " href="https://explorer.nebulas.io/#/">星云浏览器</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+
+<script src=lib/jquery-3.3.1.min.js></script>
+<script src=lib/nebPay.js></script>
+<script src=lib/bootstrap-4.0.0-dist/js/bootstrap.min.js></script>
+<script>
+
+
+
+    if(typeof(webExtensionWallet) === "undefined"){
+        $("#noExtension").removeClass("hide")
+    }
+
+
+
+    var dappAddress = "n1qtLTDW4czAo1k9sLGimZF2kYtBhoBDQ62";
+    var container;
+    var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
+    var nebPay = new NebPay();
+
+
+
+    function vc() {
+
+        var to = dappAddress;
+        var value = "0";
+        var callFunction = "save";
+        var callArgs = [];
+        callArgs.push($("#name").val())
+        callArgs.push($("#letter").val())
+
+        nebPay.call(to, value, callFunction, JSON.stringify(callArgs), {    //使用nebpay的call接口去调用合约,
+            listener: cbPush
+        });
+        return false;
+    }
+
+
+    function cbPush(resp) {
+        alert("妈妈的祝福已收到,请等待星云链保存.")
+        console.log("response of push: " + resp)
+
+    }
+
+
+
+    (function ($) {
+
+
+
+//        $("#name").attr("disabled", true)
+//        $("#button").attr("disabled", true)
+//        $("#input").attr("disabled", true)
+
+//        if (typeof(webExtensionWallet) === "undefined") {
+//            $("#noExtension").removeClass("hide")
+//        } else {
+//            $("#name").attr("disabled", false)
+//            $("#button").attr("disabled", false)
+//            $("#input").attr("disabled", false)
+//        }
+
+
+
+
+
+
+        // 初始化
+        var init = function () {
+
+
+
+            var to = dappAddress;
+            var value = "0";
+            var callFunction = "forEach";
+            var callArgs = `[]`;
+            nebPay.simulateCall(to, value, callFunction, callArgs, {    //使用nebpay的simulateCall接口去执行get查询, 模拟执行.不发送交易,不上链
+                listener: cbSearch      //指定回调函数
+            });
+
+            function cbSearch(resp) {
+
+                var result = resp.result
+                result = JSON.parse(JSON.parse(result))
+
+
+                var str = '';
+
+                for (var x = 0; x < result.length; x++) {
+                    str += '<div class="dan" >\
+                            <div class="col s12 m5">\
+                            <div class="card-panel  teal lighten-3 hoverable">\
+                            <span class="white-text" style="display: block;min-height: 80px;">'+result[x].info+'</span>\
+                    <div class="card-action">\
+                            <span  class="brown-text">'+result[x].name+'</span>\
+                            </div>\
+                            <div class="card-action">\
+                            <a target="_blank" href="https://explorer.nebulas.io/#/address/'+result[x].author+'" class="black-text">'+result[x].author+'</a>\
+                            </div>\
+                            </div>\
+                            </div>\
+                            </div>'
+                }
+
+                $("#pre-load").hide()
+                $("#container").html(str)
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+        };
+
+
+        $(function () {
+            init();
+        });
+
+    })(jQuery);
+
+
+</script>
+
+
+</body>
+</html>
